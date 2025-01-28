@@ -1,67 +1,64 @@
 import React, { useState } from "react";
 import axios from "axios";
-import './SendMessage.css';
+import './SendMessage.css'; // Import CSS for styling
 
 const SendMessage = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [to, setTo] = useState("");
   const [message, setMessage] = useState("");
-  const [statusMessage, setStatusMessage] = useState("");
+  const [response, setResponse] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setResponse(""); // Reset response message
 
-    if (!phoneNumber || !message) {
-      setStatusMessage("Please enter both a phone number and a message.");
+    if (!to || !message) {
+      setResponse("Please enter both phone number and message.");
       return;
     }
 
     try {
       // Directly use the deployed backend URL
-      const response = await axios.post(
-        "/send-sms", // Direct URL without using environment variables
-        {
-          to: phoneNumber,
-          message: message,
-        }
+      const res = await axios.post(
+        "https://your-backend-url.vercel.app/send-sms", // Replace with the actual backend URL deployed on Vercel
+        { to, message }
       );
 
-      if (response.data.success) {
-        setStatusMessage("Message sent successfully!");
-        setPhoneNumber("");
-        setMessage("");
+      if (res.data.success) {
+        setResponse("Message sent successfully!");
+      } else {
+        setResponse("Failed to send the message.");
       }
     } catch (error) {
-      setStatusMessage("Failed to send message.");
-      console.error("Error sending SMS:", error);
+      setResponse(`Error: ${error.message}`);
     }
   };
 
   return (
-    <div>
+    <div className="send-message-container">
       <h2>Send SMS</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="phoneNumber">Phone Number:</label>
+          <label>Recipient Phone Number:</label>
           <input
             type="text"
-            id="phoneNumber"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            value={to}
+            onChange={(e) => setTo(e.target.value)}
+            placeholder="+1234567890"
             required
           />
         </div>
         <div>
-          <label htmlFor="message">Message:</label>
+          <label>Message:</label>
           <textarea
-            id="message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            placeholder="Your message here..."
             required
           />
         </div>
-        <button type="submit">Send SMS</button>
+        <button type="submit">Send Message</button>
       </form>
-      {statusMessage && <p>{statusMessage}</p>}
+      {response && <p>{response}</p>}
     </div>
   );
 };
