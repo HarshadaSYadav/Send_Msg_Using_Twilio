@@ -19,7 +19,7 @@ const SendMessage = () => {
     try {
       // Directly use the deployed backend URL
       const res = await axios.post(
-        "https://send-msg-using-twilio-backend.vercel.app/send-sms", // Replace with the actual backend URL deployed on Vercel
+        "https://your-backend-url.vercel.app/send-sms", // Replace with the actual backend URL deployed on Vercel
         { to, message }
       );
 
@@ -38,9 +38,11 @@ const SendMessage = () => {
       <h2>Send SMS</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Recipient Phone Number:</label>
+          <label htmlFor="phoneNumber">Recipient Phone Number:</label>
           <input
             type="text"
+            id="phoneNumber"  // id attribute added
+            name="phoneNumber" // name attribute added
             value={to}
             onChange={(e) => setTo(e.target.value)}
             placeholder="+1234567890"
@@ -48,8 +50,10 @@ const SendMessage = () => {
           />
         </div>
         <div>
-          <label>Message:</label>
+          <label htmlFor="message">Message:</label>
           <textarea
+            id="message" // id attribute added
+            name="message" // name attribute added
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Your message here..."
