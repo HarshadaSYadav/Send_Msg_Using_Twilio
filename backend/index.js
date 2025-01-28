@@ -15,16 +15,21 @@ const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
 const client = twilio(accountSid, authToken);
 
 // Middleware
+const corsOptions = {
+  origin: 'https://portfolio-mocha-seven-26.vercel.app',// Allow the frontend domain
+  methods: "GET,POST,PUT,DELETE,OPTIONS", // Allowed methods
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+};
+
+// Middleware
+// Handle preflight requests
 app.use(bodyParser.json());
-app.use(
-  cors({
-    origin: [
-      "https://send-msg-using-twilio.vercel.app", // Replace with your actual frontend URL
-    ],
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  console.log("CORS Headers:");
+  console.log(req.headers);
+  next();
+});
 
 // Send SMS route
 app.post("/send-sms", async (req, res) => {
