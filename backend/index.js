@@ -18,6 +18,9 @@ const client = twilio(accountSid, authToken);
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get("/", (req, res) => {
+  res.send("Welcome to the Portfolio Backend API!");
+});
 // Route to send a message
 app.post('/send-message', (req, res) => {
     const { to, message } = req.body;
