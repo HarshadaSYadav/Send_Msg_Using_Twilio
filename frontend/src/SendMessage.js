@@ -1,3 +1,4 @@
+// src/SendMessage.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import './SendMessage.css';
@@ -12,10 +13,12 @@ const SendMessage = () => {
         setResponse('');
 
         try {
-            const res = await axios.post('http://localhost:5000/send-message', {
+            // Update this URL to point to your deployed Vercel backend API endpoint
+            const res = await axios.post('https://your-backend.vercel.app/api/send-message', {
                 to,
                 message,
             });
+
             if (res.data.success) {
                 setResponse('Message sent successfully!');
             } else {
