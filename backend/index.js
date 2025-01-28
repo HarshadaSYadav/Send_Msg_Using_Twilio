@@ -1,10 +1,11 @@
+// Import required packages
 const express = require("express");
 const twilio = require("twilio");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 // Use environment variables from Vercel directly
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -18,15 +19,12 @@ app.use(bodyParser.json());
 app.use(
   cors({
     origin: [
-      "*", // Frontend URL in production
-      // You can also include other origins or use "*" in development for testing
+      "https://your-frontend-url.vercel.app", // Replace with your actual frontend URL
     ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   })
 );
-
-app.use(express.json());
 
 // Send SMS route
 app.post("/send-sms", async (req, res) => {
@@ -50,7 +48,7 @@ app.post("/send-sms", async (req, res) => {
   }
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Start the server (for local development)
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
