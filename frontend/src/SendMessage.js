@@ -19,7 +19,7 @@ const SendMessage = () => {
     try {
       // Directly use the deployed backend URL
       const res = await axios.post(
-        "https://your-backend-url.vercel.app/send-sms", // Replace with the actual backend URL deployed on Vercel
+        "https://send-msg-using-twilio-backend.vercel.app/send-sms", // Replace with the actual backend URL deployed on Vercel
         { to, message }
       );
 
