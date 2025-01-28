@@ -16,7 +16,7 @@ const client = twilio(accountSid, authToken);
 
 // Middleware
 const corsOptions = {
-  origin: 'https://send-msg-using-twilio-backend.vercel.app',// Allow the frontend domain
+  origin: 'https://send-msg-using-twilio.vercel.app',// Allow the frontend domain
   methods: "GET,POST,PUT,DELETE,OPTIONS", // Allowed methods
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
 };
