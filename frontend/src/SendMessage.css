@@ -1,0 +1,102 @@
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container */
+.container {
+    background: #afdfe1;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 120%;
+    height: 450px;
+    max-width: 700px;
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Title */
+.container h1 {
+    font-size: 30px;
+    color: #060606;
+    margin-bottom: 1rem;
+}
+
+/* Form Fields */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form div {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+label {
+    font-size: 20px;
+    color: #040404;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 20px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #007bff;
+}
+
+textarea {
+    resize: none;
+    height: 100px;
+}
+
+/* Button */
+button {
+    padding: 0.9rem;
+    margin-top: 8px;
+    font-size: 23px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Response Message */
+p {
+    margin-top: 1.5rem;
+    font-size: 25px;
+    color: #03920a;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+    }
+}
