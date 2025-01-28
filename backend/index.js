@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(
   cors({
     origin: [
-      "https://your-frontend-url.vercel.app", // Replace with your actual frontend URL
+      "https://send-msg-using-twilio.vercel.app", // Replace with your actual frontend URL
     ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
