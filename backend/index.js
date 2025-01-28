@@ -1,41 +1,56 @@
-// api/index.js
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const twilio = require('twilio');
+const express = require("express");
+const twilio = require("twilio");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const app = express();
+const port = process.env.PORT || 5000;
 
-// Twilio credentials from .env
+// Use environment variables from Vercel directly
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
-// Initialize Twilio client
 const client = twilio(accountSid, authToken);
 
 // Middleware
-app.use(cors());
 app.use(bodyParser.json());
+app.use(
+  cors({
+    origin: [
+      "*", // Frontend URL in production
+      // You can also include other origins or use "*" in development for testing
+    ],
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
-// Route to send a message
-app.post('/send-message', (req, res) => {
-    const { to, message } = req.body;
+app.use(express.json());
 
-    if (!to || !message) {
-        return res.status(400).send({ success: false, error: 'Phone number and message are required.' });
-    }
+// Send SMS route
+app.post("/send-sms", async (req, res) => {
+  const { to, message } = req.body;
 
-    client.messages
-        .create({
-            body: message,
-            from: twilioPhoneNumber,
-            to,
-        })
-        .then((message) => res.status(200).send({ success: true, sid: message.sid }))
-        .catch((error) => res.status(500).send({ success: false, error: error.message }));
+  if (!to || !message) {
+    return res.status(400).json({ error: "Missing 'to' or 'message' field" });
+  }
+
+  try {
+    const response = await client.messages.create({
+      body: message,
+      from: twilioPhoneNumber,
+      to,
+    });
+
+    res.status(200).json({ success: true, messageId: response.sid });
+  } catch (error) {
+    console.error("Error sending SMS:", error);
+    res.status(500).json({ error: "Failed to send message", details: error });
+  }
 });
 
-// Export the app to make it a serverless function for Vercel
-module.exports = app;
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
